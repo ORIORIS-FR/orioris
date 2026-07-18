@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Tinder des Soft Skills (Sauvegarde Auto) - ORIORIS</title>
+    <style>
+        :root {
+            --bg: #1e1e1e;
+            --card-bg: #2d2d2d;
+            --text: #ffffff;
+            --accent: #e67e22;
+            --green: #2ecc71;
+            --red: #e74c3c;
+            --blue: #3498db;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* --- UI DU JEU --- */
+        #game-container {
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #444;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-size: 1.8rem; /* Un peu plus petit pour les textes longs */
+            font-weight: bold;
+            min-height: 180px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            border: 2px solid transparent;
+            transition: transform 0.2s, border-color 0.2s;
+            cursor: default;
+            user-select: none;
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        .new-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            padding: 5px 10px;
+            border-radius: 10px;
+            transform: rotate(5deg);
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .btn {
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn:active { transform: scale(0.95); }
+        .btn-no { background-color: var(--red); }
+        .btn-dev { background-color: var(--blue); }
+        .btn-yes { background-color: var(--green); }
+        
+        .btn-stop {
+            margin-top: 25px;
+            background: transparent;
+            border: 1px solid #555;
+            color: #aaa;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-stop:hover { border-color: var(--accent); color: var(--accent); }
+        
+        .key-hint { font-size: 0.7rem; opacity: 0.7; margin-top: 5px; font-weight: normal; }
+
+        /* --- UI RÉSULTATS --- */
+        #results-container {
+            display: none;
+            width: 90%;
+            max-width: 800px;
+            height: 90vh;
+            overflow-y: auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+        }
+        
+        .result-group { margin-bottom: 30px; text-align: left; }
+        .result-group h3 { border-bottom: 2px solid #555; padding-bottom: 10px; color: var(--accent); }
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tag { padding: 5px 12px; border-radius: 15px; font-size: 0.9rem; background: #444; }
+        .tag.yes { border: 1px solid var(--green); color: var(--green); }
+        .tag.dev { border: 1px solid var(--blue); color: var(--blue); }
+
+        .btn-copy {
+            background-color: var(--accent);
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .btn-reset {
+            background: #333;
+            color: #777;
+            border: none;
+            padding: 10px;
+            margin-top: 30px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <h2 style="margin-top:0; color:#888; font-size:1rem;">⚡ TRI SOFT SKILLS (Auto-Save)</h2>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+        
+        <div class="card" id="card">
+            Chargement...
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-no" onclick="vote('no')">❌ NON <span class="key-hint">←</span></button>
+            <button class="btn btn-dev" onclick="vote('dev')">🚀 À BOSSER <span class="key-hint">↑</span></button>
+            <button class="btn btn-yes" onclick="vote('yes')">✅ OUI <span class="key-hint">→</span></button>
+        </div>
+        
+        <p style="margin-top:10px; font-size:0.8rem; color:#666;">
+            <span id="counter">0</span> / 235
+        </p>
+
+        <button class="btn-stop" onclick="finishGame()">🏁 Voir mes résultats (Pause)</button>
+        <div id="save-msg" style="font-size:0.7rem; color:var(--green); opacity:0; transition:opacity 1s; margin-top:5px;">Progression sauvegardée</div>
+    </div>
+
+    <div id="results-container">
+        <h1 style="text-align:center;">📊 Ton Bilan Actuel</h1>
+        <p style="text-align:center; color:#aaa;" id="result-subtitle"></p>
+
+        <button class="btn-copy" onclick="copyToClipboard()">📋 Copier le Bilan (Obsidian)</button>
+        <p id="copy-feedback" style="text-align:center; color:var(--green); opacity:0;">Copié !</p>
+
+        <div class="result-group">
+            <h3>🚀 À DÉVELOPPER</h3>
+            <div class="tag-cloud" id="list-dev"></div>
+        </div>
+
+        <div class="result-group">
+            <h3>✅ FORCES</h3>
+            <div class="tag-cloud" id="list-yes"></div>
+        </div>
+        
+        <div style="text-align:center;">
+             <button class="btn-stop" onclick="location.reload()" style="margin-top:20px; border-color:white; color:white;">▶️ Continuer le tri</button>
+             <br>
+             <button class="btn-reset" onclick="resetData()">🗑️ Tout effacer et recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        // --- DONNÉES SOURCES ---
+        const allTraits = [
+            "Capable de reconnaître mes erreurs", "Capable de respecter les délais", "Capable d'aller au bout des projets", "Calme",
+            "Capable d'exprimer ses sentiments de façon directe", "Capable de relations durables", "Capable d'entrer dans le coeur du sujet",
+            "Audacieux", "Capable d'une attitude critique", "A la recherche de défis", "Chaleureux", "Clair dans sa pensée",
+            "Capable de travailler sous pression", "Rusé", "Conformiste", "Passif", "Méticuleux", "Soucieux de finaliser",
+            "Porté vers l'action", "Actif", "Adapté", "Agressif", "Anxieux", "Capable de hiérarchiser mes priorités",
+            "Attaché à mes propres buts", "Capable de planifier efficacement", "Soigneux", "Capable de bien travailler dans un environnement sécurité",
+            "Capable de m'exprimer librement", "Capable de profiter au mieux de mon temps", "Gai", "Charismatique", "Circonspect",
+            "Capable de réfléchir avant d'agir", "Communicatif", "Capable de retomber sur mes pieds", "Compatissant", "Compétent",
+            "Compétitif", "Concentré", "Concerné par les autres", "Concis", "Confiant", "Convenable", "Aventurier",
+            "Conscient", "Concerné par le développement humain", "Charmant", "Curieux de moi-même", "Aspirant à mieux",
+            "Conventionnel", "Logique", "Amoureux", "Loyal", "Mâture", "Méthodique", "Original", "Convivial", "Franc",
+            "Patient", "Extraverti", "Perceptif", "Me dépasse sous la pression", "Persévérant", "Persistant", "Personnel",
+            "Persuasif", "Bon joueur", "Equilibré", "Positif", "Pratique", "Tourné vers l'action", "Productif", "Professionnel",
+            "Progressif", "Prend facilement des initiatives", "Aime apprendre", "Digne de confiance", "Prudent", "Exact",
+            "Réservé", "Rebondir facilement", "Plein de ressources", "Responsable", "Emotif", "Tranquille", "Concerné par les résultats",
+            "Prendre des risques", "Assuré", "Bien dans sa peau", "Sûr de moi", "Lucide", "Contrôle de soi", "Auto-discipliné",
+            "Capable de me motiver", "Autonome", "Doué du sens de l'humour", "Sensible", "Attentif", "Grave", "Dévoué",
+            "Perspicace", "Sincère", "Sociable", "Avoir le sens social", "Spontané", "Equitable", "Anticipateur", "Convainquant",
+            "Volontaire", "Sympathique", "Plein de tact", "Ingénu", "Crédible", "Hésitant", "Curieux", "Large d'esprit",
+            "Pragmatique", "Décidé", "Dévoué à mon organisation", "Attaché à mes idées", "Egocentriste", "Dépendant",
+            "Minutieux", "Déterminé", "Agile", "Diligent", "Diplomate", "Direct", "Discret", "Réfléchi", "Dynamique",
+            "Passionné", "Rapidement motivé", "Insouciant", "Econome", "Trouve rapidement des solutions", "Efficace",
+            "Emotionnellement stable", "Energique", "Entreprenant", "Enthousiaste", "Motivant", "Ponctuel", "Excité par les défis",
+            "Expressif", "Factuel", "Visionnaire", "Adroit dans le raisonnement", "Ferme", "Souple", "Puissant", "Prévoyant",
+            "Amical", "Généreux", "Naturel", "Bon équilibre psycho", "D'un bon jugement", "Impartial", "Capable d'écoute",
+            "Doté de bon sens", "Se sent bien en groupe", "Laborieux", "Bon coéquipier", "Prévenant", "Honnête", "Humanitaire",
+            "Idéaliste", "Imaginatif", "Indépendant", "Individualiste", "Ingénieux", "Initiateur", "Innovateur", "Introspectif",
+            "Intègre", "Intellectuel", "En harmonie avec ses sentiments", "Introverti", "Intuitif", "Inventif",
+            "Curieux du monde extérieur", "Concerné", "Equipier idéal", "Tenace", "Consciencieux", "Rationnel", "Concret",
+            "Raisonnable", "Méditatif", "Soucieux des autres", "Tolérant", "Indifférent à la routine", "Solide mentalement",
+            "Plein de confiance", "Digne de foi", "Sans prétention", "Peu émotif", "Compréhensif", "Peu ambitieux",
+            "Sans égoïsme", "Aventureux", "S'exprime avec facilité", "Versatile", "Accueillant", "Soigné", "Avide de savoir",
+            "Sage", "Endurant les missions de longue durée", "Spirituel", "Alerte", "Ambitieux", "Analytique", "Sûr de soi",
+            "Astucieux", "Attentif au détail", "Conservateur", "Calme après la tempête", "Coopératif", "Courageux", "Créatif",
+            "A la recherche de responsabilités"
+        ];
+
+        // --- GESTION ÉTAT (LOCALSTORAGE) ---
+        let state = {
+            queue: [], // Liste mélangée des items à traiter
+            done: { yes: [], no: [], dev: [] },
+            total: allTraits.length
+        };
+
+        const cardEl = document.getElementById('card');
+        const progressEl = document.getElementById('progress');
+        const counterEl = document.getElementById('counter');
+
+        function loadState() {
+            const saved = localStorage.getItem('orioris_softskills_v1');
+            if (saved) {
+                state = JSON.parse(saved);
+            } else {
+                // Premier lancement : on mélange tout
+                state.queue = shuffleArray([...allTraits]);
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem('orioris_softskills_v1', JSON.stringify(state));
+            
+            // Feedback visuel discret
+            const msg = document.getElementById('save-msg');
+            msg.style.opacity = 1;
+            setTimeout(() => msg.style.opacity = 0, 1000);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function init() {
+            loadState();
+            renderCard();
+            updateProgress();
+            
+            // Clavier
+            document.addEventListener('keydown', (e) => {
+                if(document.getElementById('game-container').style.display === 'none') return;
+                if (e.key === 'ArrowLeft') vote('no');
+                if (e.key === 'ArrowRight') vote('yes');
+                if (e.key === 'ArrowUp') vote('dev');
+            });
+        }
+
+        function renderCard() {
+            if (state.queue.length === 0) {
+                finishGame();
+                return;
+            }
+            const currentTrait = state.queue[0];
+            
+            // Reset anim
+            cardEl.className = 'card';
+            void cardEl.offsetWidth; 
+            
+            cardEl.innerHTML = currentTrait + (isNewSession() ? `<div class="new-badge">Suite...</div>` : "");
+        }
+
+        function isNewSession() {
+            // Astuce visuelle pour dire "On reprend"
+            return false; 
+        }
+
+        function vote(choice) {
+            if (state.queue.length === 0) return;
+
+            const trait = state.queue.shift(); // Enlever le premier
+            state.done[choice].push(trait);    // Ajouter aux faits
+            
+            saveState(); // Sauvegarder immédiatement !
+
+            // Anim
+            if(choice === 'no') { cardEl.style.borderColor = 'var(--red)'; cardEl.classList.add('slide-left'); }
+            else if(choice === 'yes') { cardEl.style.borderColor = 'var(--green)'; cardEl.classList.add('slide-right'); }
+            else { cardEl.style.borderColor = 'var(--blue)'; cardEl.classList.add('slide-up'); }
+
+            setTimeout(() => {
+                renderCard();
+                updateProgress();
+            }, 150);
+        }
+
+        function updateProgress() {
+            const doneCount = state.done.yes.length + state.done.no.length + state.done.dev.length;
+            const pct = Math.round((doneCount / state.total) * 100);
+            progressEl.style.width = pct + '%';
+            counterEl.innerText = `${doneCount} / ${state.total}`;
+        }
+
+        function finishGame() {
+            document.getElementById('game-container').style.display = 'none';
+            document.getElementById('results-container').style.display = 'block';
+
+            const doneCount = state.done.yes.length + state.done.no.length + state.done.dev.length;
+            document.getElementById('result-subtitle').innerText = `${doneCount} traits triés sur ${state.total}`;
+
+            displayTags('list-dev', state.done.dev, 'dev');
+            displayTags('list-yes', state.done.yes, 'yes');
+        }
+
+        function displayTags(id, arr, type) {
+            const el = document.getElementById(id);
+            el.innerHTML = arr.length ? "" : "<em>Rien pour l'instant</em>";
+            arr.forEach(t => {
+                el.innerHTML += `<span class="tag ${type}">${t}</span>`;
+            });
+        }
+
+        function copyToClipboard() {
+            let md = "# 🧠 Bilan Soft Skills\n\n";
+            md += `> [!info] Progression\n> Avancement : ${document.getElementById('counter').innerText}\n\n`;
+            
+            md += "## 🚀 À Développer\n";
+            state.done.dev.forEach(t => md += `- [ ] ${t}\n`);
+            
+            md += "\n## ✅ Forces\n";
+            state.done.yes.forEach(t => md += `- ${t}\n`);
+
+            navigator.clipboard.writeText(md).then(() => {
+                document.getElementById('copy-feedback').style.opacity = 1;
+                setTimeout(() => document.getElementById('copy-feedback').style.opacity = 0, 2000);
+            });
+        }
+
+        function resetData() {
+            if(confirm("Attention : Cela va effacer toute ta progression. Sûr ?")) {
+                localStorage.removeItem('orioris_softskills_v1');
+                location.reload();
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
