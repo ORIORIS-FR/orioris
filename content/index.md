@@ -57,7 +57,7 @@ cssclasses: mode-cockpit
       </div>
     </a>
     <!-- Carte 2 -->
-    <a href="/MOC-LABO-IA" style="text-decoration: none; background-image: none !important; box-shadow: none !important;">
+    <a href="/Tinder Soft skills" style="text-decoration: none; background-image: none !important; box-shadow: none !important;">
       <div style="border-left: 5px solid #58a6ff; background: rgba(88, 166, 255, 0.05); padding: 25px; border-radius: 12px; height: 100%; border-top: 1px solid #30363d; border-right: 1px solid #30363d; border-bottom: 1px solid #30363d;">
         <span style="font-size: 1.4em; color: #58a6ff; font-weight: 800;">⚙️ LABO IA</span>
         <p style="color: #8b949e; margin-top: 10px; font-size: 0.95em;">Aides Techniques Neuroatypie<br><small>(Analyses & Développement)</small></p>
