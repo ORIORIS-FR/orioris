@@ -36,9 +36,9 @@ graph TD
     A -->|"Récupération Physique"| D(("🏠 DOMOTIQUE<br>PRÉDICTIVE"))
     
     %% ROUTAGE DES CLICS 
-    click B "/Outils-Ancrage-Cinetique" "Minuteurs à gravité et objets tangibles"
-    click C "/Outils-Bouclier-Sensoriel" "IEM EEG & Infrabasses"
-    click D "/Outils-Domotique-Predictive" "IoT & Récupération"
+    click B "/outils/Outils-Ancrage-Cinetique" "Minuteurs à gravité et objets tangibles"
+    click C "/outils/Outils-Bouclier-Sensoriel" "IEM EEG & Infrabasses"
+    click D "/outils/Outils-Domotique-Predictive" "IoT & Récupération"
 
     %% STYLISATION SOMBRE TEXTURÉE (Orioris Standard)
     style A fill:#1a1a2e,stroke:#f2ce5a,stroke-width:3px,color:#f2ce5a
