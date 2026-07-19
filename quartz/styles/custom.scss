@@ -1,3 +1,19 @@
 @use "./variables.scss" as *;
 
+/* Débridage de la largeur globale de la page pour le mode Cockpit */
+.page {
+  max-width: 1400px !important; /* Tu peux mettre 100vw si tu veux un plein écran total */
+}
+
+/* Force la colonne centrale à s'étirer au maximum */
+.page > #quartz-body .center {
+  max-width: 100% !important;
+}
+
+/* Force ta vidéo cyberpunk à occuper tout ce nouvel espace */
+article video {
+  width: 100%;
+  border-radius: 12px;
+}
+
 // put your custom CSS here!
