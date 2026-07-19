@@ -8,8 +8,9 @@ cssclasses: moc-armurerie
 <div style="max-width: 900px; margin: auto; padding: 20px; font-family: 'Inter', sans-serif; background: linear-gradient(145deg, #0d1117, #161b22); border-radius: 20px 20px 0 0; border: 1px solid #30363d; border-bottom: none; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
 <!-- HEADER MOC -->
 <div style="border-bottom: 2px solid #f2ce5a; padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
-<span style="font-size: 2em; font-weight: 900; color: #f2ce5a; text-transform: uppercase;">🛒 SHOPPING: 
-- Equipements (Neuro-Hardware)</span>
+<span style="font-size: 2em; font-weight: 900; color: #f2ce5a; text-transform: uppercase;"> Concepts 💡 Idées 💡 Produits 
+🧰 Caisse à Outils 🛠️  
+(Neuro-Hardware)</span>
 <a href="/index" style="color: #8b949e; text-decoration: none; border: 1px solid #30363d; padding: 5px 15px; border-radius: 5px; font-weight: bold; background: #0d1117; background-image: none !important;">⬆️ Retour Cockpit</a>
 </div>
 <!-- HUD SENSORIEL -->

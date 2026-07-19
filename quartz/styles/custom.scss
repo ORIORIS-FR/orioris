@@ -32,25 +32,29 @@
   50% { opacity: 0.8; transform: scale(0.98); } 
 }
 
-/* 2. CARTES BLINDÉES ORIORIS */
+/* 2. CARTES BLINDÉES ORIORIS (CORRECTION SUPERPOSITION) */
 .orioris-card {
-  background: #1a1a2e;
-  padding: 25px;
-  border-radius: 12px;
-  border: 1px solid #30363d;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #1a1a2e !important;
+  padding: 25px !important;
+  border-radius: 12px !important;
+  border: 1px solid #30363d !important;
+  
+  /* CORRECTIONS ARCHITECTURALES */
+  height: auto !important; /* Laisse la carte s'adapter à son contenu au lieu de forcer */
+  margin-bottom: 35px !important; /* Injecte l'espace vertical obligatoire entre les lignes */
+  
+  display: flex !important;
+  flex-direction: column !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
 }
 
-/* Effet au survol pour dynamiser l'interface */
+/* Effet au survol maintenu */
 .orioris-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0,255,65,0.15) !important; /* Léger glow vert au lieu du noir neutre */
 }
 
-/* Indicateurs de statut (Le !important est conservé ici pour forcer l'écrasement des bordures globales si nécessaire) */
+/* Indicateurs de statut */
 .card-green { border-left: 5px solid #00ff41 !important; }
 .card-blue { border-left: 5px solid #58a6ff !important; }
 .card-yellow { border-left: 5px solid #f2ce5a !important; }
