@@ -5,7 +5,7 @@ import {
   PageTypePluginEntry,
 } from "./types"
 import { LoadedPlugin } from "./loader/types"
-
+// test
 export interface PluginConfiguration {
   transformers: (QuartzTransformerPluginInstance | LoadedPlugin)[]
   filters: (QuartzFilterPluginInstance | LoadedPlugin)[]
