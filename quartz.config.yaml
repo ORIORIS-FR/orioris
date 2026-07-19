@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: Quartz 5
+  pageTitle: ORIORIS
   pageTitleSuffix: ""
   enableSPA: true
   enablePopovers: true
@@ -198,8 +198,9 @@ plugins:
     enabled: true
     options:
       links:
-        GitHub: https://github.com/jackyzha0/quartz
-        Discord Community: https://discord.gg/cRFFHYye7t
+        GitHub ORIORIS: https://github.com/ORIORIS-FR
+        LinkedIn: 
+        Reddit: https://www.reddit.com/user/ORIORIS/
   - source: github:quartz-community/recent-notes
     enabled: false
   - source: github:quartz-community/spacer

@@ -25,8 +25,10 @@ cssclasses: moc-armurerie
 
 ### 🧭 Interface de Déploiement Matériel (VSL Interactive)
 
-*(Graphe de routage : Clique sur les modules pour accéder à l'équipement).*
+*(Graphe de routage : Clique sur les modules pour accéder à l'équipement
+
 <div align="center">
+
 ```mermaid
 graph TD
     A{"⚙️ SÉLECTION<br>DE L'ÉQUIPEMENT"}
@@ -53,8 +55,8 @@ graph TD
 
 _(Graphe d'idéation : Modules en cours d'analyse)._
 
-
 <div align="center">
+
 ```mermaid
 graph TD
     Z{"⏳ MODULES<br>EN ATTENTE"}
