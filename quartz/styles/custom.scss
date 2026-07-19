@@ -57,23 +57,22 @@
 .card-purple { border-left: 5px solid #b392f0 !important; }
 
 /* =========================================
-   1. REGLAGE DE LA LARGEUR (FORÇAGE EXTRÊME)
+   1. REGLAGE DE LA LARGEUR (FORÇAGE ABSOLU)
    ========================================= */
 :root {
   --pageWidth: 1200px !important; 
 }
 
-/* Écrasement direct des classes natives Quartz pour forcer l'élargissement */
-.page,
-.page .center,
-.center {
+/* Écrasement brutal des conteneurs natifs Quartz */
+.page, 
+.center, 
+.page > .center,
+article {
   max-width: 1200px !important;
   width: 100% !important;
-  position: relative;
-  z-index: 10; /* Protège le contenu central pour qu'il reste au-dessus des barres Matrix */
 }
 
-/* Force les vidéos et iframes à prendre toute la largeur disponible */
+/* Force les vidéos et iframes */
 article iframe, 
 article video {
   width: 100% !important;
@@ -85,10 +84,8 @@ article video {
 }
 
 /* =========================================
-   2. MODE COCKPIT : PILIERS MATRIX ANIMÉS
+   2. MODE COCKPIT : PILIERS MATRIX NETTOYÉS
    ========================================= */
-
-/* Le moteur de l'animation : défilement continu de haut en bas */
 @keyframes matrix-fall {
   0% { transform: translateY(-50%); }
   100% { transform: translateY(0%); }
@@ -96,25 +93,29 @@ article video {
 
 body[data-slug="index"]::before,
 body[data-slug="index"]::after {
-  /* Texte répété massivement pour permettre un défilement infini sans blanc */
-  content: "010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010";
+  /* CHAÎNE UNIQUE SANS AUCUN ESPACE : Empêche la multiplication des colonnes */
+  content: "010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010";
   position: fixed;
   top: 0;
-  width: 70px; 
-  height: 200vh; /* Double de la hauteur de l'écran pour que le texte puisse tomber */
+  width: 45px; /* Bloqué à la largeur stricte d'une seule lettre + lueur */
+  height: 200vh;
   writing-mode: vertical-rl;
   text-orientation: upright;
-  color: #00ff41; 
-  background-color: #000000; 
+  color: #00ff41;
+  background-color: #000000;
   font-family: 'Courier New', Courier, monospace;
-  font-size: 28px; /* Taillé pour être lisible sans baver hors du cadre noir */
-  font-weight: 900; 
-  pointer-events: none; 
-  z-index: 1; /* Placé en fond pour ne pas bloquer les menus Quartz */
-  text-shadow: 0 0 10px #00ff41; 
-  animation: matrix-fall 15s linear infinite; /* 15s = vitesse du flux (diminue le chiffre pour accélérer) */
+  font-size: 28px;
+  font-weight: 900;
+  pointer-events: none;
+  z-index: 1; /* Derrière le contenu central */
+  text-shadow: 0 0 10px #00ff41;
+  white-space: nowrap; /* Interdiction stricte du retour à la ligne */
+  overflow: hidden;
+  animation: matrix-fall 15s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Ancrage absolu à gauche et à droite */
 body[data-slug="index"]::before { left: 0; }
 body[data-slug="index"]::after { right: 0; }
