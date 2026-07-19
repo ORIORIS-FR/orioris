@@ -1,3 +1,76 @@
 @use "./variables.scss" as *;
 
 // put your custom CSS here!
+/* 1. ANIMATIONS DE BASE */
+.spin-active { 
+  animation: spin-3d 15s linear infinite; 
+  transform-origin: center; 
+}
+
+@keyframes spin-3d { 
+  from { transform: rotateY(0deg); } 
+  to { transform: rotateY(360deg); } 
+}
+
+@keyframes flux-rapide { 
+  0% { background-position: 200% 0; } 
+  100% { background-position: 0% 0; } 
+}
+
+@keyframes pulse-glow { 
+  0%, 100% { box-shadow: 0 0 5px rgba(0, 255, 65, 0.5); } 
+  50% { box-shadow: 0 0 20px rgba(0, 255, 65, 0.8); } 
+}
+
+@keyframes gyro-spin { 
+  from { transform: translate(-50%, -50%) rotate(0deg); } 
+  to { transform: translate(-50%, -50%) rotate(360deg); } 
+}
+
+@keyframes emergency-flash { 
+  0%, 100% { opacity: 1; transform: scale(1); } 
+  50% { opacity: 0.8; transform: scale(0.98); } 
+}
+
+/* 2. CARTES BLINDÉES ORIORIS */
+.orioris-card {
+  background: #1a1a2e;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #30363d;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Effet au survol pour dynamiser l'interface */
+.orioris-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Indicateurs de statut (Le !important est conservé ici pour forcer l'écrasement des bordures globales si nécessaire) */
+.card-green { border-left: 5px solid #00ff41 !important; }
+.card-blue { border-left: 5px solid #58a6ff !important; }
+.card-yellow { border-left: 5px solid #f2ce5a !important; }
+.card-purple { border-left: 5px solid #b392f0 !important; }
+
+/* 3. MODE COCKPIT (Ciblage strict de la page d'accueil) */
+body[data-slug="index"]::after {
+  content: "010101ORIORIS101010SYSTÈME101010INFRA1010";
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 100%;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  color: #00ff41;
+  font-family: 'monospace';
+  font-size: 12px;
+  opacity: 0.3;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
