@@ -57,53 +57,64 @@
 .card-purple { border-left: 5px solid #b392f0 !important; }
 
 /* =========================================
-   1. REGLAGE DE LA LARGEUR (CONTENU & VIDEO)
+   1. REGLAGE DE LA LARGEUR (FORÇAGE EXTRÊME)
    ========================================= */
 :root {
-  /* Force la largeur maximale de la colonne centrale (par défaut ~800px, on passe à 1200px) */
   --pageWidth: 1200px !important; 
 }
 
-/* Force les vidéos et iframes à prendre 100% de l'espace de la nouvelle colonne */
+/* Écrasement direct des classes natives Quartz pour forcer l'élargissement */
+.page,
+.page .center,
+.center {
+  max-width: 1200px !important;
+  width: 100% !important;
+  position: relative;
+  z-index: 10; /* Protège le contenu central pour qu'il reste au-dessus des barres Matrix */
+}
+
+/* Force les vidéos et iframes à prendre toute la largeur disponible */
 article iframe, 
 article video {
   width: 100% !important;
   max-width: 100% !important;
-  aspect-ratio: 16/9; /* Garde le format cinéma */
+  aspect-ratio: 16/9;
   border-radius: 8px;
   margin: 2rem 0;
-  border: 1px solid #30363d; /* Optionnel : rajoute un cadre technique autour de la vidéo */
+  border: 1px solid #30363d;
 }
 
 /* =========================================
-   2. MODE COCKPIT : PILIERS MATRIX (GAUCHE & DROITE)
+   2. MODE COCKPIT : PILIERS MATRIX ANIMÉS
    ========================================= */
-body[data-slug="index"]::before,
-body[data-slug="index"]::after {
-  /* Texte rallongé pour être sûr de couvrir toute la hauteur */
-  content: "010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010";
-  position: fixed;
-  top: 0;
-  width: 70px; /* Largeur de la barre noire */
-  height: 100vh; /* Toute la hauteur de l'écran */
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-  color: #00ff41; /* Vert Matrix pétant */
-  background-color: #000000; /* Fond noir absolu */
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 32px; /* Beaucoup plus gros */
-  font-weight: 900; /* Ultra gras */
-  opacity: 1; /* Pleine visibilité, plus de transparence */
-  pointer-events: none; /* Empêche de cliquer dessus par erreur */
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  white-space: nowrap;
-  text-shadow: 0 0 15px #00ff41; /* Effet de lueur Matrix (Glow) */
+
+/* Le moteur de l'animation : défilement continu de haut en bas */
+@keyframes matrix-fall {
+  0% { transform: translateY(-50%); }
+  100% { transform: translateY(0%); }
 }
 
-/* Positionnement strict de chaque pilier */
+body[data-slug="index"]::before,
+body[data-slug="index"]::after {
+  /* Texte répété massivement pour permettre un défilement infini sans blanc */
+  content: "010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010";
+  position: fixed;
+  top: 0;
+  width: 70px; 
+  height: 200vh; /* Double de la hauteur de l'écran pour que le texte puisse tomber */
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  color: #00ff41; 
+  background-color: #000000; 
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 28px; /* Taillé pour être lisible sans baver hors du cadre noir */
+  font-weight: 900; 
+  pointer-events: none; 
+  z-index: 1; /* Placé en fond pour ne pas bloquer les menus Quartz */
+  text-shadow: 0 0 10px #00ff41; 
+  animation: matrix-fall 15s linear infinite; /* 15s = vitesse du flux (diminue le chiffre pour accélérer) */
+}
+
+/* Ancrage absolu à gauche et à droite */
 body[data-slug="index"]::before { left: 0; }
 body[data-slug="index"]::after { right: 0; }
