@@ -1,9 +1,6 @@
 ---
 cssclasses: moc-armurerie
 ---
----
-cssclasses: moc-armurerie
----
 
 <div style="max-width: 900px; margin: auto; padding: 20px; font-family: 'Inter', sans-serif; background: linear-gradient(145deg, #0d1117, #161b22); border-radius: 20px 20px 0 0; border: 1px solid #30363d; border-bottom: none; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
 <!-- HEADER MOC -->
@@ -22,12 +19,15 @@ cssclasses: moc-armurerie
 </div>
 </div>
 
+<br>
+
+<div align="center">
+
 ### 🧭 Interface de Déploiement Matériel (VSL Interactive)
 
 *(Graphe de routage : Clique sur les modules pour accéder à l'équipement).*
 
 ```mermaid
-
 graph TD
     A{"⚙️ SÉLECTION<br>DE L'ÉQUIPEMENT"}
     
@@ -47,5 +47,31 @@ graph TD
     style D fill:#161b22,stroke:#f2ce5a,stroke-width:2px,color:#fff,cursor:pointer
     
     linkStyle 0,1,2 stroke:#f2ce5a,stroke-width:2px,color:#fff
+````
+
+### 🚧 Équipements & Familles en Attente
+
+_(Graphe d'idéation : Modules en cours d'analyse)._
+
+
+
+```mermaid
+graph TD
+    Z{"⏳ MODULES<br>EN ATTENTE"}
     
+    Z -.-> F1(("👀 ERGONOMIE<br>VISUELLE"))
+    Z -.-> F2(("💊 NUTRITION<br>CIBLÉE"))
+    Z -.-> F3(("🌡️ RÉGULATION<br>THERMIQUE"))
+    Z -.-> F4(("⚡ ONDES &<br>FRÉQUENCES"))
+    Z -.-> F5(("🪑 INTERFACE<br>POSTURALE"))
+
+    %% STYLISATION FANTÔME (Pointillés + Couleurs désactivées)
+    style Z fill:#1a1a2e,stroke:#646464,stroke-width:3px,color:#8b949e,stroke-dasharray: 5 5
+    style F1 fill:#0d1117,stroke:#646464,stroke-width:2px,color:#8b949e,stroke-dasharray: 5 5
+    style F2 fill:#0d1117,stroke:#646464,stroke-width:2px,color:#8b949e,stroke-dasharray: 5 5
+    style F3 fill:#0d1117,stroke:#646464,stroke-width:2px,color:#8b949e,stroke-dasharray: 5 5
+    style F4 fill:#0d1117,stroke:#646464,stroke-width:2px,color:#8b949e,stroke-dasharray: 5 5
+    style F5 fill:#0d1117,stroke:#646464,stroke-width:2px,color:#8b949e,stroke-dasharray: 5 5
+    
+    linkStyle 0,1,2,3,4 stroke:#646464,stroke-width:2px,stroke-dasharray: 5 5
 ```
