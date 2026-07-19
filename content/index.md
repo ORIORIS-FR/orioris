@@ -102,7 +102,7 @@ Le NeuroKit n'est pas une méthode monolithique étouffante. C'est un assemblage
 ### ⚡ 2. Le Kit d'Action (Mode Focus)
 *Cible : Démarrage impossible, Distraction, Hyperfocus mal dirigé.*
 *   **HUD de Vie :** Barres de progression et jauges d'énergie physiques et mentales.
-*   **Workflows d'Automatisation :** L'IA prend le relais sur les tâches répétitives.
+*   **Workflows d'Automatisation :** L'IA prend le relais sur les tâches répétitives. a modifier
 
 ### 📐 3. Le Kit de Structure (Mode Orga)
 *Cible : Phobie administrative, "Oubli" des projets, Perte de fichiers.*
