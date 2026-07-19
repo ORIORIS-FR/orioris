@@ -199,7 +199,7 @@ plugins:
     options:
       links:
         GitHub ORIORIS: https://github.com/ORIORIS-FR
-        LinkedIn: 
+        CV en ligne: https://cv.orioris.com/
         Reddit: https://www.reddit.com/user/ORIORIS/
   - source: github:quartz-community/recent-notes
     enabled: false
