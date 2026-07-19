@@ -56,21 +56,54 @@
 .card-yellow { border-left: 5px solid #f2ce5a !important; }
 .card-purple { border-left: 5px solid #b392f0 !important; }
 
-/* 3. MODE COCKPIT (Ciblage strict de la page d'accueil) */
+/* =========================================
+   1. REGLAGE DE LA LARGEUR (CONTENU & VIDEO)
+   ========================================= */
+:root {
+  /* Force la largeur maximale de la colonne centrale (par défaut ~800px, on passe à 1200px) */
+  --pageWidth: 1200px !important; 
+}
+
+/* Force les vidéos et iframes à prendre 100% de l'espace de la nouvelle colonne */
+article iframe, 
+article video {
+  width: 100% !important;
+  max-width: 100% !important;
+  aspect-ratio: 16/9; /* Garde le format cinéma */
+  border-radius: 8px;
+  margin: 2rem 0;
+  border: 1px solid #30363d; /* Optionnel : rajoute un cadre technique autour de la vidéo */
+}
+
+/* =========================================
+   2. MODE COCKPIT : PILIERS MATRIX (GAUCHE & DROITE)
+   ========================================= */
+body[data-slug="index"]::before,
 body[data-slug="index"]::after {
-  content: "010101ORIORIS101010SYSTÈME101010INFRA1010";
+  /* Texte rallongé pour être sûr de couvrir toute la hauteur */
+  content: "010101ORIORIS101010SYSTÈME101010INFRA1010 010101ORIORIS101010SYSTÈME101010INFRA1010";
   position: fixed;
   top: 0;
-  right: 0;
-  width: 30px;
-  height: 100%;
+  width: 70px; /* Largeur de la barre noire */
+  height: 100vh; /* Toute la hauteur de l'écran */
   writing-mode: vertical-rl;
   text-orientation: upright;
-  color: #00ff41;
-  font-family: 'monospace';
-  font-size: 12px;
-  opacity: 0.3;
-  pointer-events: none;
-  background: rgba(0, 0, 0, 0.5);
+  color: #00ff41; /* Vert Matrix pétant */
+  background-color: #000000; /* Fond noir absolu */
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 32px; /* Beaucoup plus gros */
+  font-weight: 900; /* Ultra gras */
+  opacity: 1; /* Pleine visibilité, plus de transparence */
+  pointer-events: none; /* Empêche de cliquer dessus par erreur */
   z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-shadow: 0 0 15px #00ff41; /* Effet de lueur Matrix (Glow) */
 }
+
+/* Positionnement strict de chaque pilier */
+body[data-slug="index"]::before { left: 0; }
+body[data-slug="index"]::after { right: 0; }
