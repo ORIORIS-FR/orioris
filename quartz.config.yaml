@@ -126,12 +126,12 @@ plugins:
   - source: github:quartz-community/tag-page
     enabled: true
   - source: github:quartz-community/explorer
-    enabled: false  # <-- Change 'true' en 'false'pour l'enlever
+    enabled: false
     layout:
       position: left
       priority: 50
   - source: github:quartz-community/graph
-    enabled: false # <-- Change 'true' en 'false' pour virer le graph
+    enabled: false
     layout:
       position: right
       priority: 10
@@ -253,6 +253,16 @@ plugins:
       position: afterBody
       priority: 50
       display: all
+  - source: github:quartz-community/og-image
+    enabled: true
+    options:
+      colorScheme: lightMode
+      width: 1200
+      height: 630
+      excludeRoot: false
+      defaultTitle: Untitled
+      defaultDescription: No description provided
+    order: 50
 layout:
   groups:
     toolbar:
