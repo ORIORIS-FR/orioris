@@ -32,26 +32,37 @@
   50% { opacity: 0.8; transform: scale(0.98); } 
 }
 
-/* 2. CARTES BLINDÉES ORIORIS (CORRECTION SUPERPOSITION) */
+/* =========================================
+   2. CARTES BLINDÉES ORIORIS (CORRECTION UNIVERSELLE)
+   ========================================= */
 .orioris-card {
   background: #1a1a2e !important;
   padding: 25px !important;
   border-radius: 12px !important;
   border: 1px solid #30363d !important;
   
-  /* CORRECTIONS ARCHITECTURALES */
-  height: auto !important; /* Laisse la carte s'adapter à son contenu au lieu de forcer */
-  margin-bottom: 35px !important; /* Injecte l'espace vertical obligatoire entre les lignes */
+  /* 🛡️ CORRECTION DU CRASH MOBILE */
+  height: auto !important; /* Force la carte à englober tout le texte, peu importe l'écran */
+  min-height: 140px !important;
+  margin-bottom: 35px !important; 
+  box-sizing: border-box !important; /* Empêche le padding de faire exploser la largeur */
+  width: 100% !important;
   
+  /* Sécurité anti-chevauchement absolue */
+  position: relative !important;
+  z-index: 2 !important;
   display: flex !important;
   flex-direction: column !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  overflow: hidden !important; 
+  
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out;
 }
 
-/* Effet au survol maintenu */
+/* Effet au survol */
 .orioris-card:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(0,255,65,0.15) !important; /* Léger glow vert au lieu du noir neutre */
+  transform: translateY(-4px) !important;
+  box-shadow: 0 6px 15px rgba(0, 255, 65, 0.15) !important; 
+  border-color: #00ff41 !important;
 }
 
 /* Indicateurs de statut */
@@ -59,6 +70,31 @@
 .card-blue { border-left: 5px solid #58a6ff !important; }
 .card-yellow { border-left: 5px solid #f2ce5a !important; }
 .card-purple { border-left: 5px solid #b392f0 !important; }
+
+/* =========================================
+   3. RESPONSIVE MOBILE (BOUCLIER ANTI-SURCHARGE)
+   ========================================= */
+@media screen and (max-width: 768px) {
+  
+  /* 1. Désactivation des Piliers Matrix sur petit écran pour éviter la surcharge cognitive */
+  body[data-slug="index"]::before,
+  body[data-slug="index"]::after {
+    display: none !important; 
+  }
+  
+  /* 2. Récupération de l'espace vital */
+  .page, .center, article {
+    max-width: 100% !important;
+    padding: 10px !important;
+    width: 100% !important;
+  }
+  
+  /* 3. Ajustement de l'espacement des cartes pour le format vertical */
+  .orioris-card {
+    padding: 20px !important;
+    margin-bottom: 25px !important;
+  }
+}
 
 /* =========================================
    1. REGLAGE DE LA LARGEUR (FORÇAGE ABSOLU)
