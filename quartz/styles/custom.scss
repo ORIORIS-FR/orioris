@@ -60,16 +60,21 @@
    1. REGLAGE DE LA LARGEUR (FORÇAGE ABSOLU)
    ========================================= */
 :root {
-  --pageWidth: 1200px !important; 
+  --pageWidth: 1400px !important; /* Variable globale poussée au maximum */
 }
 
-/* Écrasement brutal des conteneurs natifs Quartz */
-.page, 
+/* Écrasement brutal des conteneurs natifs Quartz pour forcer la largeur */
+.page {
+  max-width: 100% !important; 
+}
+
 .center, 
 .page > .center,
 article {
-  max-width: 1200px !important;
+  max-width: 1200px !important; /* Le centre garde toujours sa largeur géante */
   width: 100% !important;
+  margin: 0 auto !important;
+  z-index: 10;
 }
 
 /* Force les vidéos et iframes */
@@ -84,7 +89,7 @@ article video {
 }
 
 /* =========================================
-   2. MODE COCKPIT : PILIERS MATRIX NETTOYÉS
+   2. MODE COCKPIT : PILIERS MATRIX BLINDÉS
    ========================================= */
 @keyframes matrix-fall {
   0% { transform: translateY(-50%); }
@@ -93,12 +98,16 @@ article video {
 
 body[data-slug="index"]::before,
 body[data-slug="index"]::after {
-  /* CHAÎNE UNIQUE SANS AUCUN ESPACE : Empêche la multiplication des colonnes */
-  content: "010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010";
+  content: "010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010010101ORIORIS101010SYSTÈME101010INFRA1010";
   position: fixed;
   top: 0;
-  width: 45px; /* Bloqué à la largeur stricte d'une seule lettre + lueur */
-  height: 200vh;
+  
+  /* VERROUILLAGE TOTAL DE LA LARGEUR : interdiction de grossir */
+  width: 45px !important; 
+  max-width: 45px !important;
+  min-width: 45px !important;
+  
+  height: 200vh !important;
   writing-mode: vertical-rl;
   text-orientation: upright;
   color: #00ff41;
@@ -109,8 +118,11 @@ body[data-slug="index"]::after {
   pointer-events: none;
   z-index: 1; /* Derrière le contenu central */
   text-shadow: 0 0 10px #00ff41;
-  white-space: nowrap; /* Interdiction stricte du retour à la ligne */
-  overflow: hidden;
+  
+  /* COUPURE NETTE : tout ce qui essaie de faire une nouvelle colonne est masqué */
+  white-space: nowrap !important; 
+  overflow: hidden !important; 
+  
   animation: matrix-fall 15s linear infinite;
   display: flex;
   align-items: center;
